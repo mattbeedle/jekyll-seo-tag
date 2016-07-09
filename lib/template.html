@@ -82,17 +82,11 @@
 
 {% if site.logo %}
   {% assign seo_site_logo = site.logo %}
-  {% unless seo_site_logo contains "://" %}
-    {% assign seo_site_logo = seo_site_logo | absolute_url %}
-  {% endunless %}
   {% assign seo_site_logo = seo_site_logo | escape %}
 {% endif %}
 
 {% if page.image %}
   {% assign seo_page_image = page.image.path | default: page.image.facebook | default: page.image %}
-  {% unless seo_page_image contains "://" %}
-    {% assign seo_page_image = seo_page_image | absolute_url %}
-  {% endunless %}
   {% assign seo_page_image = seo_page_image | escape %}
 {% endif %}
 
@@ -119,7 +113,7 @@
 {% endif %}
 
 {% if seo_page_image %}
-<meta property="og:image" content="{{ seo_page_image }}" />
+  <meta property="og:image" content="{% asset_path {{seo_page_image}} %}" />
   {% if page.image.height %}
     <meta property="og:image:height" content="{{ page.image.height }}" />
   {% endif %}
@@ -129,7 +123,11 @@
 {% endif %}
 
 {% if page.image.twitter %}
-  <meta name="twitter:image" content="{{ page.image.twitter | absolute_url }}" />
+  {% if page.image.twitter_dimensions %}
+    <meta name="twitter:image" content="{% asset_path {{page.image.twitter}} magick:resize:{{page.image.twitter_dimensions}} %}" />
+  {% else %}
+    <meta name="twitter:image" content="{% asset_path {{page.image.twitter}} %}" />
+  {% endif %}
 {% endif %}
 
 {% if page.date %}
@@ -193,7 +191,7 @@
 {% endif %}
 
 {% if seo_page_image %}
-    "image": {{ seo_page_image | jsonify }},
+    "image": {{ {% asset_path {{seo_page_image}} %} | jsonify }},
 {% endif %}
 
 {% if page.date %}
@@ -209,9 +207,10 @@
         "@type": "Organization",
         "logo": {
             "@type": "ImageObject",
-            "url": {{ seo_site_logo | jsonify }}
+            "url": "{% asset_path {{seo_site_logo}} %}"
         }
     },
+    "logo": "{% asset_path {{seo_site_logo}} %}",
 {% endif %}
 
 {% if seo_links %}
