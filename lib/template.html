@@ -124,7 +124,7 @@
 
 {% if page.image.twitter %}
   {% if page.image.twitter_dimensions %}
-    <meta name="twitter:image" content="{% asset_path {{page.image.twitter}} magick:resize:{{page.image.twitter_dimensions}} %}" />
+  <meta name="twitter:image" content="{% image_path '{{page.image.twitter}}'  magick:resize:{{page.image.twitter_dimensions}} %}" />
   {% else %}
     <meta name="twitter:image" content="{% asset_path {{page.image.twitter}} %}" />
   {% endif %}
