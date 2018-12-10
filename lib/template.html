@@ -113,7 +113,7 @@
 {% endif %}
 
 {% if seo_page_image %}
-  <meta property="og:image" content="{% asset_path {{seo_page_image}} %}" />
+  <meta property="og:image" content="{% asset {{seo_page_image}} @path %}" />
   {% if page.image.height %}
     <meta property="og:image:height" content="{{ page.image.height }}" />
   {% endif %}
@@ -126,7 +126,7 @@
   {% if page.image.twitter_dimensions %}
   <meta name="twitter:image" content="{% image_path '{{page.image.twitter}}'  magick:resize:{{page.image.twitter_dimensions}} %}" />
   {% else %}
-    <meta name="twitter:image" content="{% asset_path {{page.image.twitter}} %}" />
+    <meta name="twitter:image" content="{% asset {{page.image.twitter}} @path %}" />
   {% endif %}
 {% endif %}
 
@@ -191,7 +191,7 @@
 {% endif %}
 
 {% if seo_page_image %}
-    "image": {{ {% asset_path {{seo_page_image}} %} | jsonify }},
+    "image": {{ {% asset {{seo_page_image}} @path %} | jsonify }},
 {% endif %}
 
 {% if page.date %}
@@ -207,10 +207,10 @@
         "@type": "Organization",
         "logo": {
             "@type": "ImageObject",
-            "url": "{% asset_path {{seo_site_logo}} %}"
+            "url": "{% asset {{seo_site_logo}} @path %}"
         }
     },
-    "logo": "{% asset_path {{seo_site_logo}} %}",
+    "logo": "{% asset {{seo_site_logo}} @path %}",
 {% endif %}
 
 {% if seo_links %}
